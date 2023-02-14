@@ -11,7 +11,7 @@ from pytz import timezone
 class OCPNewsExtractor(OCPStreamExtractor):
     NPR_URL = "https://www.npr.org/rss/podcast.php"
     TSF_URL = "https://www.tsf.pt/stream"
-    GBP_URL = "http://feeds.feedburner.com/gpbnews"
+    GPB_URL = "http://feeds.feedburner.com/gpbnews"
 
     def __init__(self, ocp_settings=None):
         super().__init__(ocp_settings)
@@ -63,12 +63,14 @@ class OCPNewsExtractor(OCPStreamExtractor):
             i += 1
         if status != 200:
             return None
-        return {"uri": uri}
+        return {"uri": uri,
+                "title": "TSF Radio Noticias",
+                "author": "TSF"}
 
     @classmethod
     def gpb(cls):
-        """Custom news fetcher for GBP news."""
-        feed = f'{cls.GBP_URL}/GeorgiaRSS?format=xml'
+        """Custom news fetcher for GPB news."""
+        feed = f'{cls.GPB_URL}/GeorgiaRSS?format=xml'
         data = feedparser.parse(feed)
         next_link = None
         for entry in data['entries']:
@@ -84,7 +86,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
         if mp3_find is None:
             return None
         uri = mp3_find.group('mp3').decode('utf-8')
-        return {"uri": uri}
+        return {"uri": uri, "title": "GPB News", "author": "GPB"}
 
     @classmethod
     def npr(cls):
@@ -92,4 +94,4 @@ class OCPNewsExtractor(OCPStreamExtractor):
         feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
         if feed:
             uri = feed["uri"].split("?")[0]
-            return {"uri": uri}
+            return {"uri": uri, "title": "NPR News", "author": "NPR"}
