@@ -12,6 +12,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
     NPR_URL = "https://www.npr.org/rss/podcast.php"
     TSF_URL = "https://www.tsf.pt/stream"
     GPB_URL = "http://feeds.feedburner.com/gpbnews"
+    GR1_URL = "https://www.raiplaysound.it"
 
     def __init__(self, ocp_settings=None):
         super().__init__(ocp_settings)
@@ -32,7 +33,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
         """ return True if uri can be handled by this extractor, False otherwise"""
         return any([uri.startswith(sei) for sei in self.supported_seis]) or \
                any([uri.startswith(url) for url in [
-                   self.TSF_URL, self.GBP_URL, self.NPR_URL
+                   self.TSF_URL, self.GBP_URL, self.NPR_URL, self.GR1_URL
                ]])
 
     def extract_stream(self, uri, video=True):
@@ -45,6 +46,8 @@ class OCPNewsExtractor(OCPStreamExtractor):
             return self.tsf()
         elif uri.startswith(self.GBP_URL):
             return self.gpb()
+        elif uri.startswith(self.GR1_URL):
+            return self.gr1()
 
     @classmethod
     def tsf(cls):
@@ -75,7 +78,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
         next_link = None
         for entry in data['entries']:
             # Find the first mp3 link with "GPB {time} Headlines" in title
-            if 'GPB' in entry['title'] and 'Headlines' in entry['title']:
+            if 'GPB' in entry['title'] and ('Headlines' in entry['title']):
                 next_link = entry['links'][0]['href']
                 break
         html = requests.get(next_link)
@@ -95,3 +98,33 @@ class OCPNewsExtractor(OCPStreamExtractor):
         if feed:
             uri = feed["uri"].split("?")[0]
             return {"uri": uri, "title": "NPR News", "author": "NPR"}
+
+    @classmethod
+    def gr1(cls):
+        json_path = f"{cls.GR1_URL}/programmi/gr1.json"
+        headers = {
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1"
+        }
+        resp = requests.get(json_path, headers=headers).json()
+        path = resp['block']['cards'][0]['path_id']
+        grjson_path = f"{cls.GR1_URL}{path}"
+        resp = requests.get(grjson_path, headers=headers).json()
+        uri = resp['downloadable_audio']['url']
+        return {"uri": uri, "title": "Radio Giornale 1", "author": "Rai GR1"}
+
+
+if __name__ == "__main__":
+    # dedicated parsers
+    print(OCPNewsExtractor.gr1())
+    exit()
+    print(OCPNewsExtractor.npr())
+    print(OCPNewsExtractor.tsf())
+    # RSS
+    print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://www.cbc.ca/podcasting/includes/hourlynews.xml"))
+    print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://podcasts.files.bbci.co.uk/p02nq0gn.rss"))
+    print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://www.pbs.org/newshour/feeds/rss/podcasts/show"))
