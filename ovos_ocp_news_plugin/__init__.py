@@ -63,7 +63,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
             i += 1
         if status != 200:
             return None
-        return uri
+        return {"uri": uri}
 
     @classmethod
     def gpb(cls):
@@ -83,12 +83,13 @@ class OCPNewsExtractor(OCPStreamExtractor):
         mp3_find = re.search(r'href="(?P<mp3>.+\.mp3)"'.encode(), html.content)
         if mp3_find is None:
             return None
-        url = mp3_find.group('mp3').decode('utf-8')
-        return url
+        uri = mp3_find.group('mp3').decode('utf-8')
+        return {"uri": uri}
 
     @classmethod
     def npr(cls):
         url = f"{cls.NPR_URL}?id=500005"
         feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
         if feed:
-            return feed["uri"].split("?")[0]
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri}
