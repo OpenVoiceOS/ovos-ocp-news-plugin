@@ -1,7 +1,11 @@
 import feedparser
-
-from ovos_plugin_manager.templates.ocp import OCPStreamExtractor
+import re
+import requests
+from datetime import timedelta
+from lingua_franca.time import now_local
 from ovos_ocp_rss_plugin import OCPRSSFeedExtractor
+from ovos_plugin_manager.templates.ocp import OCPStreamExtractor
+from pytz import timezone
 
 
 class OCPNewsExtractor(OCPStreamExtractor):
@@ -45,12 +49,12 @@ class OCPNewsExtractor(OCPStreamExtractor):
     @classmethod
     def tsf(cls):
         """Custom inews fetcher for TSF news."""
-        feed = (f'{cls.TSF_URL}/audio/{year}/{month:02d}/'
-                'noticias/{day:02d}/not{hour:02d}.mp3')
         uri = None
         i = 0
         status = 404
         date = now_local(timezone('Portugal'))
+        feed = (f'{cls.TSF_URL}/audio/{date.year}/{date.month:02d}/'
+                'noticias/{day:02d}/not{hour:02d}.mp3')
         while status != 200 and i < 6:
             uri = feed.format(hour=date.hour, year=date.year,
                               month=date.month, day=date.day)
