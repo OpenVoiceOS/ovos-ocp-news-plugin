@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/HEAD)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.1...HEAD)
+
+**Implemented enhancements:**
+
+- add Radio Giornale 1 [\#1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/1) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.1) (2023-02-14)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.1a5...V0.0.1)
+
 ## [V0.0.1a5](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.1a5) (2023-02-14)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.1a4...V0.0.1a5)
