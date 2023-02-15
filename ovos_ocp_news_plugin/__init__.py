@@ -1,11 +1,13 @@
 import feedparser
 import re
 import requests
+from bs4 import BeautifulSoup
 from datetime import timedelta
 from lingua_franca.time import now_local
 from ovos_ocp_rss_plugin import OCPRSSFeedExtractor
 from ovos_plugin_manager.templates.ocp import OCPStreamExtractor
 from pytz import timezone
+from urllib.request import urlopen
 
 
 class OCPNewsExtractor(OCPStreamExtractor):
@@ -13,6 +15,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
     TSF_URL = "https://www.tsf.pt/stream"
     GPB_URL = "http://feeds.feedburner.com/gpbnews"
     GR1_URL = "https://www.raiplaysound.it"
+    FT_URL = "https://www.ft.com"
 
     def __init__(self, ocp_settings=None):
         super().__init__(ocp_settings)
@@ -33,7 +36,8 @@ class OCPNewsExtractor(OCPStreamExtractor):
         """ return True if uri can be handled by this extractor, False otherwise"""
         return any([uri.startswith(sei) for sei in self.supported_seis]) or \
                any([uri.startswith(url) for url in [
-                   self.TSF_URL, self.GBP_URL, self.NPR_URL, self.GR1_URL
+                   self.TSF_URL, self.GBP_URL, self.NPR_URL,
+                   self.GR1_URL, self.FT_URL
                ]])
 
     def extract_stream(self, uri, video=True):
@@ -48,6 +52,8 @@ class OCPNewsExtractor(OCPStreamExtractor):
             return self.gpb()
         elif uri.startswith(self.GR1_URL):
             return self.gr1()
+        elif uri.startswith(self.FT_URL):
+            return self.ft()
 
     @classmethod
     def tsf(cls):
@@ -117,13 +123,28 @@ class OCPNewsExtractor(OCPStreamExtractor):
         uri = resp['downloadable_audio']['url']
         return {"uri": uri, "title": "Radio Giornale 1", "author": "Rai GR1"}
 
+    @classmethod
+    def ft(cls):
+        page = urlopen(f"{cls.FT_URL}/newsbriefing")
+        # Use bs4 to parse website and get mp3 link
+        soup = BeautifulSoup(page, features='html.parser')
+        result = soup.find('time')
+        target_div = result.parent.find_next('div')
+        target_url = 'http://www.ft.com' + target_div.a['href']
+        mp3_page = urlopen(target_url)
+        mp3_soup = BeautifulSoup(mp3_page, features='html.parser')
+        uri = mp3_soup.find('source')['src']
+        return {"uri": uri, "title": "FT news briefing", "author": "Financial Times"}
+
 
 if __name__ == "__main__":
     # dedicated parsers
-    print(OCPNewsExtractor.gr1())
+    print(OCPNewsExtractor.ft())
     exit()
     print(OCPNewsExtractor.npr())
     print(OCPNewsExtractor.tsf())
+    print(OCPNewsExtractor.gr1())
+    print(OCPNewsExtractor.gpb())
     # RSS
     print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://www.cbc.ca/podcasting/includes/hourlynews.xml"))
     print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://podcasts.files.bbci.co.uk/p02nq0gn.rss"))
