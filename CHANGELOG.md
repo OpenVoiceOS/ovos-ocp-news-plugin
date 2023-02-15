@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/HEAD)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.1...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a1...HEAD)
+
+**Implemented enhancements:**
+
+- add Financial Times [\#2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/2) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.2a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.2a1) (2023-02-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.1...V0.0.2a1)
 
 **Implemented enhancements:**
 
