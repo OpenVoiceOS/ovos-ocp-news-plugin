@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/HEAD)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a1...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a2...HEAD)
+
+**Merged pull requests:**
+
+- add ABC News Australia [\#3](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/3) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.2a2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.2a2) (2023-02-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a1...V0.0.2a2)
 
 **Implemented enhancements:**
 
