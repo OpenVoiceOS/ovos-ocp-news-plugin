@@ -1,7 +1,9 @@
 import feedparser
+import pytz
 import re
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
 from datetime import timedelta
 from lingua_franca.time import now_local
 from ovos_ocp_rss_plugin import OCPRSSFeedExtractor
@@ -16,6 +18,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
     GPB_URL = "http://feeds.feedburner.com/gpbnews"
     GR1_URL = "https://www.raiplaysound.it"
     FT_URL = "https://www.ft.com"
+    ABC_URL = "https://www.abc.net.au/news"
 
     def __init__(self, ocp_settings=None):
         super().__init__(ocp_settings)
@@ -37,7 +40,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
         return any([uri.startswith(sei) for sei in self.supported_seis]) or \
                any([uri.startswith(url) for url in [
                    self.TSF_URL, self.GBP_URL, self.NPR_URL,
-                   self.GR1_URL, self.FT_URL
+                   self.GR1_URL, self.FT_URL, self.ABC_URL
                ]])
 
     def extract_stream(self, uri, video=True):
@@ -54,6 +57,8 @@ class OCPNewsExtractor(OCPStreamExtractor):
             return self.gr1()
         elif uri.startswith(self.FT_URL):
             return self.ft()
+        elif uri.startswith(self.ABC_URL):
+            return self.abc()
 
     @classmethod
     def tsf(cls):
@@ -136,15 +141,41 @@ class OCPNewsExtractor(OCPStreamExtractor):
         uri = mp3_soup.find('source')['src']
         return {"uri": uri, "title": "FT news briefing", "author": "Financial Times"}
 
+    @classmethod
+    def abc(cls):
+        """Custom news fetcher for ABC News Australia briefing"""
+        # Format template with (hour, day, month)
+        url_temp = ('https://abcmedia.akamaized.net/news/audio/news-briefings/'
+                    'top-stories/{}{}/NAUs_{}00flash_{}{}_nola.mp3')
+        now = pytz.utc.localize(datetime.utcnow())
+        syd_tz = pytz.timezone('Australia/Sydney')
+        syd_dt = now.astimezone(syd_tz)
+        hour = syd_dt.strftime('%H')
+        day = syd_dt.strftime('%d')
+        month = syd_dt.strftime('%m')
+        year = syd_dt.strftime('%Y')
+        url = url_temp.format(year, month, hour, day, month)
+
+        # If this hours news is unavailable try the hour before
+        response = requests.get(url)
+        if response.status_code != 200:
+            hour = str(int(hour) - 1)
+            url = url_temp.format(year, month, hour, day, month)
+
+        return {"uri": url,
+                "title": "ABC News Australia",
+                "author": "Australian Broadcasting Corporation"}
+
 
 if __name__ == "__main__":
     # dedicated parsers
-    print(OCPNewsExtractor.ft())
+    print(OCPNewsExtractor.abc())
     exit()
     print(OCPNewsExtractor.npr())
     print(OCPNewsExtractor.tsf())
     print(OCPNewsExtractor.gr1())
     print(OCPNewsExtractor.gpb())
+    print(OCPNewsExtractor.ft())
     # RSS
     print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://www.cbc.ca/podcasting/includes/hourlynews.xml"))
     print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://podcasts.files.bbci.co.uk/p02nq0gn.rss"))
