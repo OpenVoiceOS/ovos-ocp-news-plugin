@@ -39,7 +39,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
         """ return True if uri can be handled by this extractor, False otherwise"""
         return any([uri.startswith(sei) for sei in self.supported_seis]) or \
                any([uri.startswith(url) for url in [
-                   self.TSF_URL, self.GBP_URL, self.NPR_URL,
+                   self.TSF_URL, self.GPB_URL, self.NPR_URL,
                    self.GR1_URL, self.FT_URL, self.ABC_URL
                ]])
 
@@ -51,7 +51,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
             return self.npr()
         elif uri.startswith(self.TSF_URL):
             return self.tsf()
-        elif uri.startswith(self.GBP_URL):
+        elif uri.startswith(self.GPB_URL):
             return self.gpb()
         elif uri.startswith(self.GR1_URL):
             return self.gr1()
@@ -169,13 +169,15 @@ class OCPNewsExtractor(OCPStreamExtractor):
 
 if __name__ == "__main__":
     # dedicated parsers
-    print(OCPNewsExtractor.abc())
+    "http://www.rtp.pt//play/itunes/5442"
+    print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://www.rtp.pt/rdpafrica/rss"))
     exit()
     print(OCPNewsExtractor.npr())
     print(OCPNewsExtractor.tsf())
     print(OCPNewsExtractor.gr1())
     print(OCPNewsExtractor.gpb())
     print(OCPNewsExtractor.ft())
+    print(OCPNewsExtractor.abc())
     # RSS
     print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://www.cbc.ca/podcasting/includes/hourlynews.xml"))
     print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://podcasts.files.bbci.co.uk/p02nq0gn.rss"))
