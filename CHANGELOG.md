@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/HEAD)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a2...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a3...HEAD)
+
+**Fixed bugs:**
+
+- fix/gpb\_typo [\#4](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/4) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.2a3](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.2a3) (2023-02-15)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a2...V0.0.2a3)
 
 **Merged pull requests:**
 
