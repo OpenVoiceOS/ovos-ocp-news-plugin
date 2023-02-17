@@ -165,20 +165,3 @@ class OCPNewsExtractor(OCPStreamExtractor):
         return {"uri": url,
                 "title": "ABC News Australia",
                 "author": "Australian Broadcasting Corporation"}
-
-
-if __name__ == "__main__":
-    # dedicated parsers
-    "http://www.rtp.pt//play/itunes/5442"
-    print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://www.rtp.pt/rdpafrica/rss"))
-    exit()
-    print(OCPNewsExtractor.npr())
-    print(OCPNewsExtractor.tsf())
-    print(OCPNewsExtractor.gr1())
-    print(OCPNewsExtractor.gpb())
-    print(OCPNewsExtractor.ft())
-    print(OCPNewsExtractor.abc())
-    # RSS
-    print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://www.cbc.ca/podcasting/includes/hourlynews.xml"))
-    print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://podcasts.files.bbci.co.uk/p02nq0gn.rss"))
-    print(OCPRSSFeedExtractor.get_rss_first_stream("rss//https://www.pbs.org/newshour/feeds/rss/podcasts/show"))
