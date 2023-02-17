@@ -12,12 +12,26 @@ from urllib.request import urlopen
 
 
 class OCPNewsExtractor(OCPStreamExtractor):
-    NPR_URL = "https://www.npr.org/rss/podcast.php"
     TSF_URL = "https://www.tsf.pt/stream"
     GPB_URL = "http://feeds.feedburner.com/gpbnews"
     GR1_URL = "https://www.raiplaysound.it"
     FT_URL = "https://www.ft.com"
     ABC_URL = "https://www.abc.net.au/news"
+
+    NPR_RSS = "https://www.npr.org/rss/podcast.php"
+    NPR = "https://www.npr.org/podcasts/500005/npr-news-now"
+    ALASKA_NIGHTLY = "https://www.npr.org/podcasts/828054805/alaska-news-nightly"
+    KHNS = "https://www.npr.org/podcasts/381444103/k-h-n-s-f-m-local-news"
+    KGOU_PM = "https://www.npr.org/podcasts/1111549375/k-g-o-u-p-m-news-brief"
+    KGOU_AM = "https://www.npr.org/podcasts/1111549080/k-g-o-u-a-m-news-brief"
+    KBBI = "https://www.npr.org/podcasts/1052142404/k-b-b-i-newscast"
+    ASPEN = "https://www.npr.org/podcasts/1100476310/aspen-public-radio-newscast"
+    SONOMA = "https://www.npr.org/podcasts/1090302835/first-news"
+    NHNR = "https://www.npr.org/podcasts/1071428476/n-h-news-recap"
+    NSPR = "https://www.npr.org/podcasts/1074915520/n-s-p-r-headlines"
+    WSIU = "https://www.npr.org/podcasts/1038076755/w-s-i-u-news-updates"
+    SDPB = "https://www.npr.org/podcasts/1031233995/s-d-p-b-news"
+    KVCR = "https://www.npr.org/podcasts/1033362253/the-midday-news-report"
 
     def __init__(self, ocp_settings=None):
         super().__init__(ocp_settings)
@@ -38,8 +52,11 @@ class OCPNewsExtractor(OCPStreamExtractor):
         """ return True if uri can be handled by this extractor, False otherwise"""
         return any([uri.startswith(sei) for sei in self.supported_seis]) or \
                any([uri.startswith(url) for url in [
-                   self.TSF_URL, self.GPB_URL, self.NPR_URL,
-                   self.GR1_URL, self.FT_URL, self.ABC_URL
+                   self.TSF_URL, self.GPB_URL, self.NPR_RSS,
+                   self.GR1_URL, self.FT_URL, self.ABC_URL,
+                   self.NPR, self.ASPEN, self.ALASKA_NIGHTLY,
+                   self.KVCR, self.KBBI, self.KHNS, self.KGOU_AM, self.KGOU_PM,
+                   self.NSPR, self.WSIU, self.SONOMA, self.SDPB, self.NHNR
                ]])
 
     def extract_stream(self, uri, video=True):
@@ -47,9 +64,8 @@ class OCPNewsExtractor(OCPStreamExtractor):
         meta = {}
         if uri.startswith("news//"):
             uri = meta["uri"] = uri[6:]
-        if uri.startswith(self.NPR_URL):
-            return self.npr()
-        elif uri.startswith(self.TSF_URL):
+
+        if uri.startswith(self.TSF_URL):
             return self.tsf()
         elif uri.startswith(self.GPB_URL):
             return self.gpb()
@@ -59,6 +75,32 @@ class OCPNewsExtractor(OCPStreamExtractor):
             return self.ft()
         elif uri.startswith(self.ABC_URL):
             return self.abc()
+        elif uri.startswith(self.ALASKA_NIGHTLY):
+            return self.alaska_nightly()
+        elif uri.startswith(self.KBBI):
+            return self.kbbi()
+        elif uri.startswith(self.KHNS):
+            return self.khns()
+        elif uri.startswith(self.KGOU_AM):
+            return self.kgou_am()
+        elif uri.startswith(self.KGOU_PM):
+            return self.kgou_pm()
+        elif uri.startswith(self.ASPEN):
+            return self.aspen()
+        elif uri.startswith(self.SONOMA):
+            return self.sonoma()
+        elif uri.startswith(self.SDPB):
+            return self.sdpb()
+        elif uri.startswith(self.NHNR):
+            return self.nhnr()
+        elif uri.startswith(self.NSPR):
+            return self.nspr()
+        elif uri.startswith(self.WSIU):
+            return self.wsiu()
+        elif uri.startswith(self.KVCR):
+            return self.kvcr()
+        elif uri.startswith(self.NPR_RSS) or uri.startswith(self.NPR):
+            return self.npr()
         return meta  # dropped the news// sei if present
 
     @classmethod
@@ -92,11 +134,137 @@ class OCPNewsExtractor(OCPStreamExtractor):
 
     @classmethod
     def npr(cls):
-        url = f"{cls.NPR_URL}?id=500005"
+        url = f"{cls.NPR_RSS}?id=500005"
         feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
         if feed:
             uri = feed["uri"].split("?")[0]
-            return {"uri": uri, "title": "NPR News", "author": "NPR"}
+            return {"uri": uri,
+                    "title": "NPR News Now",
+                    "author": "NPR",
+                    "image": "https://media.npr.org/assets/img/2018/08/06/nprnewsnow_podcasttile_sq.webp"}
+
+    @classmethod
+    def alaska_nightly(cls):
+        url = "https://alaskapublic-rss.streamguys1.com/content/alaska-news-nightly-archives-alaska-public-media-npr.xml"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri, "title": "Alaska News Nightly",
+                    "author": "Alaska Public Media",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_828054805-1ce50401d43f15660a36275a8bf2ff454de62b2f.png"}
+
+    @classmethod
+    def kbbi(cls):
+        url = "https://www.kbbi.org/podcast/kbbi-newscast/rss.xml"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri, "title": "KBBI Newscast",
+                    "author": "KBBI",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1052142404-2839f62f7db7bf2ec753fca56913bd7a1b52c428.png"}
+
+    @classmethod
+    def kgou_am(cls):
+        url = "https://www.kgou.org/podcast/kgou-am-newsbrief/rss.xml"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri, "title": "KGOU AM NewsBrief",
+                    "author": "KGOU",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1111549080-ebbfb83b98c966f38237d3e6ed729d659d098cb9.png?s=300&c=85&f=webp"}
+
+    @classmethod
+    def kgou_pm(cls):
+        url = "https://www.kgou.org/podcast/kgou-pm-newsbrief/rss.xml"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri, "title": "KGOU PM NewsBrief",
+                    "author": "KGOU",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1111549375-c22ef178b4a5db87547aeb4c3c14dc8a8b1bc462.png"}
+
+    @classmethod
+    def khns(cls):
+        url = "https://www.khns.org/feed"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri, "title": "KHNS-FM Local News",
+                    "author": "KHNS",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1111549375-c22ef178b4a5db87547aeb4c3c14dc8a8b1bc462.png"}
+
+    @classmethod
+    def aspen(cls):
+        url = "https://www.aspenpublicradio.org/podcast/aspen-public-radio-n/rss.xml"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri, "title": "Aspen Public Radio Newscast",
+                    "author": "Aspen Public Radio",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1100476310-9b43c8bf959de6d90a5f59c58dc82ebc7b9b9258.png"}
+
+    @classmethod
+    def sonoma(cls):
+        url = "https://feeds.feedblitz.com/krcbfirstnews%26x%3D1"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri, "title": "First News",
+                    "author": "KRCB-FM",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1090302835-6b593e71a8d60b373ec735479dfbdd9e7f2e8cfe.png"}
+
+    @classmethod
+    def nhnr(cls):
+        url = "https://nhpr-rss.streamguys1.com/news_recap/nh-news-recap-nprone.xml"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri, "title": "N.H. News Recap",
+                    "author": "New Hampshire Public Radio",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1071428476-7bd7627d52d6c3fc7082a1524b1b10a49dde7444.png"}
+
+    @classmethod
+    def nspr(cls):
+        url = "https://www.mynspr.org/podcast/nspr-headlines/rss.xml"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri, "title": "NSPR Headlines",
+                    "author": "North State Public Radio",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1074915520-8d70ce2af1d6db7fab8a42a9b4eb55dddb6eb69a.png"}
+
+    @classmethod
+    def wsiu(cls):
+        url = "https://www.wsiu.org/podcast/wsiu-news-updates/rss.xml"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri,
+                    "title": "WSIU News Updates",
+                    "author": "WSIU Public Radio",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1038076755-aa4101ea9d54395c83b03d7dc7ac823047682192.jpg"}
+
+    @classmethod
+    def sdpb(cls):
+        url = "https://listen.sdpb.org/podcast/sdpb-news/rss.xml"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri,
+                    "title": "SDPB News",
+                    "author": "SDPB Radio",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1031233995-ae5c8fd4e932033b3b8e079cdc133703c2ef427c.jpg"}
+
+    @classmethod
+    def kvcr(cls):
+        url = "https://www.kvcrnews.org/podcast/kvcr-midday-news-report/rss.xml"
+        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
+        if feed:
+            uri = feed["uri"].split("?")[0]
+            return {"uri": uri,
+                    "title": "The Midday News Report",
+                    "author": "KVCR",
+                    "image": "https://media.npr.org/images/podcasts/primary/icon_1033362253-566d4a69caee465ebe1adf7d2949ae0c745e97b8.png"}
 
     @classmethod
     def gr1(cls):
