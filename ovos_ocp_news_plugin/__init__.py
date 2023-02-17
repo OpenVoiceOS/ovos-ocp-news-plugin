@@ -45,8 +45,9 @@ class OCPNewsExtractor(OCPStreamExtractor):
 
     def extract_stream(self, uri, video=True):
         """ return the real uri that can be played by OCP """
+        meta = {}
         if uri.startswith("news//"):
-            uri = uri[6:]
+            uri = meta["uri"] = uri[6:]
         if uri.startswith(self.NPR_URL):
             return self.npr()
         elif uri.startswith(self.TSF_URL):
@@ -59,6 +60,7 @@ class OCPNewsExtractor(OCPStreamExtractor):
             return self.ft()
         elif uri.startswith(self.ABC_URL):
             return self.abc()
+        return meta  # dropped the news// sei if present
 
     @classmethod
     def tsf(cls):
