@@ -47,8 +47,9 @@ jobs:
           sudo apt-get update
           sudo apt install python3-dev
           python -m pip install build wheel
-      - name: Install OCP plugin
+      - name: Install OCP plugins
         run: |
+          pip install git+https://github.com/OpenVoiceOS/ovos-ocp-audio-plugin
           pip install .
       - name: Install test dependencies
         run: |
