@@ -13,7 +13,7 @@ class TestOCPExtractor(unittest.TestCase):
             "https://www.abc.net.au/news",
             "https://www.ft.com",
             "https://www.npr.org/rss/podcast.php",
-            "http://feeds.feedburner.com/gpbnews"
+            "http://feeds.feedburner.com/gpbnews"  # deprecated, mapped to GeorgiaToday
         ]
         for url in news_urls:
             print(f"#### {url}")

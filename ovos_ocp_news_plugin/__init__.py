@@ -1,6 +1,4 @@
-import feedparser
 import pytz
-import re
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -8,6 +6,7 @@ from datetime import timedelta
 from lingua_franca.time import now_local
 from ovos_ocp_rss_plugin import OCPRSSFeedExtractor
 from ovos_plugin_manager.templates.ocp import OCPStreamExtractor
+from ovos_utils.log import LOG
 from pytz import timezone
 from urllib.request import urlopen
 
@@ -86,23 +85,10 @@ class OCPNewsExtractor(OCPStreamExtractor):
     @classmethod
     def gpb(cls):
         """Custom news fetcher for GPB news."""
-        feed = f'{cls.GPB_URL}/GeorgiaRSS?format=xml'
-        data = feedparser.parse(feed)
-        next_link = None
-        for entry in data['entries']:
-            # Find the first mp3 link with "GPB {time} Headlines" in title
-            if 'GPB' in entry['title'] and ('Headlines' in entry['title']):
-                next_link = entry['links'][0]['href']
-                break
-        html = requests.get(next_link)
-        # Find the first mp3 link
-        # Note that the latest mp3 may not be news,
-        # but could be an interview, etc.
-        mp3_find = re.search(r'href="(?P<mp3>.+\.mp3)"'.encode(), html.content)
-        if mp3_find is None:
-            return None
-        uri = mp3_find.group('mp3').decode('utf-8')
-        return {"uri": uri, "title": "GPB News", "author": "GPB"}
+        # https://www.gpb.org/radio/programs/georgia-today
+        LOG.debug("requested GBP feed has been deprecated, automatically mapping to Georgia Today")
+        url = "https://gpb-rss.streamguys1.com/gpb/georgia-today-npr-one.xml"
+        return OCPRSSFeedExtractor.get_rss_first_stream(url)
 
     @classmethod
     def npr(cls):
