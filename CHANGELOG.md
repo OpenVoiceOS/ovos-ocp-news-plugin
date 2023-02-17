@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/HEAD)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.3a1...HEAD)
+
+**Implemented enhancements:**
+
+- add NPR newcasts [\#6](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/6) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.3a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.3a1) (2023-02-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2...V0.0.3a1)
 
 **Fixed bugs:**
 
