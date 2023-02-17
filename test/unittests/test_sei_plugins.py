@@ -23,6 +23,7 @@ class TestOCPExtractor(unittest.TestCase):
             "https://de1.api.radio-browser.info/pls/url/69bc7084-523c-11ea-be63-52543be04c81"  # .pls
         ]
         for url in rss_urls:
+            print(f"#### {url}")
             meta = parser.extract_stream(url) or {}
             self.assertTrue(bool(meta.get("uri")))
             meta = parser.extract_stream(f"rss//{url}") or {}
@@ -41,11 +42,11 @@ class TestOCPExtractor(unittest.TestCase):
             "http://feeds.feedburner.com/gpbnews"
         ]
         for url in parser_urls:
+            print(f"#### {url}")
             meta = parser.extract_stream(url) or {}
             self.assertTrue(bool(meta.get("uri")))
             meta = parser.extract_stream(f"news//{url}") or {}
             self.assertTrue(bool(meta.get("uri")))
-
 
 
 if __name__ == '__main__':
