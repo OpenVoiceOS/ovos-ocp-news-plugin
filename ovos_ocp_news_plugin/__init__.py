@@ -1,24 +1,8 @@
-import pytz
-import requests
-from bs4 import BeautifulSoup
-from datetime import datetime
-from datetime import timedelta
-from lingua_franca.time import now_local
-from ovos_ocp_rss_plugin import OCPRSSFeedExtractor
 from ovos_plugin_manager.templates.ocp import OCPStreamExtractor
-from ovos_utils.log import LOG
-from pytz import timezone
-from urllib.request import urlopen
+from ovos_ocp_news_plugin.extractors import URL_MAPPINGS
 
 
 class OCPNewsExtractor(OCPStreamExtractor):
-    NPR_URL = "https://www.npr.org/rss/podcast.php"
-    TSF_URL = "https://www.tsf.pt/stream"
-    GPB_URL = "http://feeds.feedburner.com/gpbnews"
-    GR1_URL = "https://www.raiplaysound.it"
-    FT_URL = "https://www.ft.com"
-    ABC_URL = "https://www.abc.net.au/news"
-
     def __init__(self, ocp_settings=None):
         super().__init__(ocp_settings)
         self.settings = self.ocp_settings.get("news", {})
@@ -37,119 +21,16 @@ class OCPNewsExtractor(OCPStreamExtractor):
     def validate_uri(self, uri):
         """ return True if uri can be handled by this extractor, False otherwise"""
         return any([uri.startswith(sei) for sei in self.supported_seis]) or \
-               any([uri.startswith(url) for url in [
-                   self.TSF_URL, self.GPB_URL, self.NPR_URL,
-                   self.GR1_URL, self.FT_URL, self.ABC_URL
-               ]])
+               any([uri.startswith(url) for url in URL_MAPPINGS.keys()])
 
     def extract_stream(self, uri, video=True):
         """ return the real uri that can be played by OCP """
         meta = {}
         if uri.startswith("news//"):
             uri = meta["uri"] = uri[6:]
-        if uri.startswith(self.NPR_URL):
-            return self.npr()
-        elif uri.startswith(self.TSF_URL):
-            return self.tsf()
-        elif uri.startswith(self.GPB_URL):
-            return self.gpb()
-        elif uri.startswith(self.GR1_URL):
-            return self.gr1()
-        elif uri.startswith(self.FT_URL):
-            return self.ft()
-        elif uri.startswith(self.ABC_URL):
-            return self.abc()
+
+        for url, extractor in URL_MAPPINGS.items():
+            if uri.startswith(url):
+                return extractor()
+
         return meta  # dropped the news// sei if present
-
-    @classmethod
-    def tsf(cls):
-        """Custom inews fetcher for TSF news."""
-        uri = None
-        i = 0
-        status = 404
-        date = now_local(timezone('Portugal'))
-        feed = (f'{cls.TSF_URL}/audio/{date.year}/{date.month:02d}/'
-                'noticias/{day:02d}/not{hour:02d}.mp3')
-        while status != 200 and i < 6:
-            uri = feed.format(hour=date.hour, year=date.year,
-                              month=date.month, day=date.day)
-            status = requests.get(uri).status_code
-            date -= timedelta(hours=1)
-            i += 1
-        if status != 200:
-            return None
-        return {"uri": uri,
-                "title": "TSF Radio Noticias",
-                "author": "TSF"}
-
-    @classmethod
-    def gpb(cls):
-        """Custom news fetcher for GPB news."""
-        # https://www.gpb.org/radio/programs/georgia-today
-        LOG.debug("requested GBP feed has been deprecated, automatically mapping to Georgia Today")
-        url = "https://gpb-rss.streamguys1.com/gpb/georgia-today-npr-one.xml"
-        return OCPRSSFeedExtractor.get_rss_first_stream(url)
-
-    @classmethod
-    def npr(cls):
-        url = f"{cls.NPR_URL}?id=500005"
-        feed = OCPRSSFeedExtractor.get_rss_first_stream(url)
-        if feed:
-            uri = feed["uri"].split("?")[0]
-            return {"uri": uri, "title": "NPR News", "author": "NPR"}
-
-    @classmethod
-    def gr1(cls):
-        json_path = f"{cls.GR1_URL}/programmi/gr1.json"
-        headers = {
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "Accept-Language": "en-US,en;q=0.5",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Connection": "keep-alive",
-            "Upgrade-Insecure-Requests": "1"
-        }
-        resp = requests.get(json_path, headers=headers).json()
-        path = resp['block']['cards'][0]['path_id']
-        grjson_path = f"{cls.GR1_URL}{path}"
-        resp = requests.get(grjson_path, headers=headers).json()
-        uri = resp['downloadable_audio']['url']
-        return {"uri": uri, "title": "Radio Giornale 1", "author": "Rai GR1"}
-
-    @classmethod
-    def ft(cls):
-        page = urlopen(f"{cls.FT_URL}/newsbriefing")
-        # Use bs4 to parse website and get mp3 link
-        soup = BeautifulSoup(page, features='html.parser')
-        result = soup.find('time')
-        target_div = result.parent.find_next('div')
-        target_url = 'http://www.ft.com' + target_div.a['href']
-        mp3_page = urlopen(target_url)
-        mp3_soup = BeautifulSoup(mp3_page, features='html.parser')
-        uri = mp3_soup.find('source')['src']
-        return {"uri": uri, "title": "FT news briefing", "author": "Financial Times"}
-
-    @classmethod
-    def abc(cls):
-        """Custom news fetcher for ABC News Australia briefing"""
-        # Format template with (hour, day, month)
-        url_temp = ('https://abcmedia.akamaized.net/news/audio/news-briefings/'
-                    'top-stories/{}{}/NAUs_{}00flash_{}{}_nola.mp3')
-        now = pytz.utc.localize(datetime.utcnow())
-        syd_tz = pytz.timezone('Australia/Sydney')
-        syd_dt = now.astimezone(syd_tz)
-        hour = syd_dt.strftime('%H')
-        day = syd_dt.strftime('%d')
-        month = syd_dt.strftime('%m')
-        year = syd_dt.strftime('%Y')
-        url = url_temp.format(year, month, hour, day, month)
-
-        # If this hours news is unavailable try the hour before
-        response = requests.get(url)
-        if response.status_code != 200:
-            hour = str(int(hour) - 1)
-            url = url_temp.format(year, month, hour, day, month)
-
-        return {"uri": url,
-                "title": "ABC News Australia",
-                "author": "Australian Broadcasting Corporation"}
