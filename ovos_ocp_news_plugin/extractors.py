@@ -10,12 +10,13 @@ from pytz import timezone
 from urllib.request import urlopen
 
 TSF_URL = "https://www.tsf.pt/stream"
-GPB_URL = "http://feeds.feedburner.com/gpbnews"
+GPB_URL = "http://feeds.feedburner.com/gpbnews"  # DEPRECATED / DEAD
 GR1_URL = "https://www.raiplaysound.it"
 FT_URL = "https://www.ft.com"
 ABC_URL = "https://www.abc.net.au/news"
-
-NPR_RSS = "https://www.npr.org/rss/podcast.php"
+GEORGIA_TODAY = "https://www.gpb.org/podcasts/georgia-today"
+GEORGIA_TODAY2 = "https://www.gpb.org/radio/programs/georgia-today"
+NPR_RSS = "https://www.npr.org/rss/podcast.php"  # DEPRECATED
 NPR = "https://www.npr.org/podcasts/500005/npr-news-now"
 ALASKA_NIGHTLY = "https://www.npr.org/podcasts/828054805/alaska-news-nightly"
 KHNS = "https://www.npr.org/podcasts/381444103/k-h-n-s-f-m-local-news"
@@ -52,12 +53,17 @@ def tsf():
             "author": "TSF"}
 
 
-def gpb():
-    """Custom news fetcher for GPB news."""
+def georgia_today():
+    """Custom news fetcher for Georgia Today."""
     # https://www.gpb.org/radio/programs/georgia-today
-    LOG.debug("requested GBP feed has been deprecated, automatically mapping to Georgia Today")
     url = "https://gpb-rss.streamguys1.com/gpb/georgia-today-npr-one.xml"
     return OCPRSSFeedExtractor.get_rss_first_stream(url)
+
+
+def gpb():
+    """Custom news fetcher for GPB news."""
+    LOG.debug("requested GBP feed has been deprecated, automatically mapping to Georgia Today")
+    return georgia_today()
 
 
 def npr():
@@ -269,6 +275,7 @@ URL_MAPPINGS = {
     NSPR: nspr,
     WSIU: wsiu,
     SDPB: sdpb,
-    KVCR: kvcr
-
+    KVCR: kvcr,
+    GEORGIA_TODAY: georgia_today,
+    GEORGIA_TODAY2: georgia_today
 }
