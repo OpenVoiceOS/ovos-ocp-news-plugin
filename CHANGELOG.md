@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/HEAD)
+## [V0.0.2a4](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.2a4) (2023-02-16)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a3...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a3...V0.0.2a4)
 
 **Fixed bugs:**
 
