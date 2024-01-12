@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/HEAD)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.3...HEAD)
+
+**Merged pull requests:**
+
+- fix/dependencies [\#8](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/8) ([NeonJarbas](https://github.com/NeonJarbas))
+
+## [V0.0.3](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.3) (2023-02-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.3a2...V0.0.3)
+
 ## [V0.0.3a2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.3a2) (2023-02-17)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.3a1...V0.0.3a2)
