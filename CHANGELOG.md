@@ -1,80 +1,20 @@
 # Changelog
 
-## [Unreleased](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/HEAD)
+## [0.0.4a2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.0.4a2) (2024-09-11)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.3...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.4a1...0.0.4a2)
+
+**Merged pull requests:**
+
+- feat:semver [\#10](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/10) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.4a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.4a1) (2024-01-12)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.3...V0.0.4a1)
 
 **Merged pull requests:**
 
 - fix/dependencies [\#8](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/8) ([NeonJarbas](https://github.com/NeonJarbas))
-
-## [V0.0.3](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.3) (2023-02-17)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.3a2...V0.0.3)
-
-## [V0.0.3a2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.3a2) (2023-02-17)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.3a1...V0.0.3a2)
-
-**Implemented enhancements:**
-
-- add NPR newcasts [\#6](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/6) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.0.3a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.3a1) (2023-02-17)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2...V0.0.3a1)
-
-**Fixed bugs:**
-
-- fix/gpb + unittests [\#5](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/5) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.0.2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.2) (2023-02-16)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a4...V0.0.2)
-
-## [V0.0.2a4](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.2a4) (2023-02-16)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a3...V0.0.2a4)
-
-**Fixed bugs:**
-
-- fix/gpb\_typo [\#4](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/4) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.0.2a3](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.2a3) (2023-02-15)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a2...V0.0.2a3)
-
-**Merged pull requests:**
-
-- add ABC News Australia [\#3](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/3) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.0.2a2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.2a2) (2023-02-15)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.2a1...V0.0.2a2)
-
-**Implemented enhancements:**
-
-- add Financial Times [\#2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/2) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.0.2a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.2a1) (2023-02-15)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.1...V0.0.2a1)
-
-**Implemented enhancements:**
-
-- add Radio Giornale 1 [\#1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/1) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.0.1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.1) (2023-02-14)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.1a5...V0.0.1)
-
-## [V0.0.1a5](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.1a5) (2023-02-14)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.1a4...V0.0.1a5)
-
-## [V0.0.1a4](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.1a4) (2023-02-14)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/df5bd8dbdb655090b28057ce8888e048d8b678dc...V0.0.1a4)
 
 
 
