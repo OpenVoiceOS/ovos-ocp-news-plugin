@@ -1,9 +1,8 @@
 import pytz
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
-from datetime import timedelta
-from lingua_franca.time import now_local
+from datetime import datetime, timedelta
+from ovos_utils.time import now_local
 from ovos_ocp_rss_plugin import OCPRSSFeedExtractor
 from ovos_utils.log import LOG
 from pytz import timezone
