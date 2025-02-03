@@ -1,20 +1,12 @@
 # Changelog
 
-## [0.0.4a2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.0.4a2) (2024-09-11)
+## [0.0.5a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.0.5a1) (2025-02-03)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.4a1...0.0.4a2)
-
-**Merged pull requests:**
-
-- feat:semver [\#10](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/10) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.0.4a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/V0.0.4a1) (2024-01-12)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/V0.0.3...V0.0.4a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.0.4...0.0.5a1)
 
 **Merged pull requests:**
 
-- fix/dependencies [\#8](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/8) ([NeonJarbas](https://github.com/NeonJarbas))
+- fix: update imports [\#12](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/12) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
