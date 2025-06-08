@@ -1,14 +1,14 @@
 from ovos_plugin_manager.templates.ocp import OCPStreamExtractor
 from ovos_ocp_news_plugin.extractors import URL_MAPPINGS
-
+from ovos_utils import classproperty
 
 class OCPNewsExtractor(OCPStreamExtractor):
     def __init__(self, ocp_settings=None):
         super().__init__(ocp_settings)
         self.settings = self.ocp_settings.get("news", {})
 
-    @property
-    def supported_seis(self):
+    @classproperty
+    def supported_seis(cls):
         """
         skills may return results requesting a specific extractor to be used
 
