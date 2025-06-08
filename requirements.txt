@@ -1,4 +1,4 @@
-ovos-plugin-manager>=0.0.1,<1.0.0
+ovos-plugin-manager>=0.0.1,<2.0.0
 ovos-ocp-rss-plugin>=0.0.2,<1.0.0
 ovos-ocp-m3u-plugin>=0.0.1,<1.0.0
 pytz
