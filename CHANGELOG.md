@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.0.5a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.0.5a1) (2025-02-03)
+## [0.1.1a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.1a1) (2025-06-08)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.0.4...0.0.5a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.0...0.1.1a1)
 
 **Merged pull requests:**
 
-- fix: update imports [\#12](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/12) ([JarbasAl](https://github.com/JarbasAl))
+- fix: compatibility with ovos-plugin-manager 1.X.X [\#14](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/14) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
