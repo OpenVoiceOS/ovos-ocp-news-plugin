@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.3a3](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.3a3) (2025-12-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.3a2...0.1.3a3)
+
+**Merged pull requests:**
+
+- chore\(deps\): update actions/checkout action to v6 [\#24](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/24) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update pypa/gh-action-pip-audit action to v1.1.0 [\#23](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/23) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.1.3a2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.3a2) (2025-12-19)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.3a1...0.1.3a2)
