@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 ### replace this data with your plugin specific info
-PLUGIN_TYPE = "ovos.ocp.extractor"
+PLUGIN_TYPE = "opm.ocp.extractor"
 PLUGIN_NAME = 'ovos-ocp-news-plugin'
 PLUGIN_PKG = PLUGIN_NAME.replace("-", "_")
 PLUGIN_CLAZZ = "OCPNewsExtractor"
