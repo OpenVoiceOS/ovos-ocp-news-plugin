@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ovos_ocp_news_plugin"
+dynamic = ["version"]
+description = "OCP news feed stream extractor plugin"
+readme = "README.md"
+authors = [
+    { name = "JarbasAI", email = "jarbasai@mailfence.com" }
+]
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+keywords = ["ovos", "ocp", "plugin"]
+dependencies = [
+    "ovos-plugin-manager>=0.0.1,<3.0.0",
+    "ovos-ocp-rss-plugin>=0.0.2,<1.0.0",
+    "ovos-ocp-m3u-plugin>=0.0.1,<1.0.0",
+    "pytz",
+    "beautifulsoup4",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenVoiceOS/ovos-ocp-news-plugin"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+]
+
+[project.entry-points."opm.ocp.extractor"]
+"ovos-ocp-news-plugin" = "ovos_ocp_news_plugin:OCPNewsExtractor"
+
+[tool.setuptools.dynamic]
+version = { attr = "ovos_ocp_news_plugin.version.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ovos_ocp_news_plugin*"]
