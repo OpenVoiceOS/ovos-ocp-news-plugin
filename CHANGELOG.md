@@ -1,12 +1,53 @@
 # Changelog
 
-## [0.1.2a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.2a1) (2025-11-05)
+## [0.1.4a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.4a1) (2026-08-13)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.1...0.1.2a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.3a5...0.1.4a1)
 
 **Merged pull requests:**
 
-- Update ovos-plugin-manager version range to \<3.0.0 [\#16](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/16) ([JarbasAl](https://github.com/JarbasAl))
+- fix: restore TSF and GR1 news feeds \(\#9, \#7\) [\#35](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/35) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.1.3a5](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.3a5) (2026-07-31)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.3a4...0.1.3a5)
+
+**Merged pull requests:**
+
+- docs: rewrite README in Simplified Technical English [\#33](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/33) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.1.3a4](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.3a4) (2026-06-16)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.3a3...0.1.3a4)
+
+**Merged pull requests:**
+
+- chore: add missing shared CI workflows [\#30](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/30) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.1.3a3](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.3a3) (2025-12-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.3a2...0.1.3a3)
+
+**Merged pull requests:**
+
+- chore\(deps\): update actions/checkout action to v6 [\#24](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/24) ([renovate[bot]](https://github.com/apps/renovate))
+- chore\(deps\): update pypa/gh-action-pip-audit action to v1.1.0 [\#23](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/23) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [0.1.3a2](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.3a2) (2025-12-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.3a1...0.1.3a2)
+
+**Merged pull requests:**
+
+- chore\(deps\): update dependency python to 3.14 [\#19](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/19) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [0.1.3a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.3a1) (2025-12-18)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.2...0.1.3a1)
+
+**Merged pull requests:**
+
+- chore: Configure Renovate [\#18](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/18) ([renovate[bot]](https://github.com/apps/renovate))
 
 
 
