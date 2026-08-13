@@ -1,3 +1,4 @@
+import re
 import pytz
 import requests
 from bs4 import BeautifulSoup
@@ -9,6 +10,7 @@ from pytz import timezone
 from urllib.request import urlopen
 
 TSF_URL = "https://www.tsf.pt/stream"
+TSF_URL_NOTICIARIOS = "https://www.tsf.pt/noticiarios"
 GPB_URL = "http://feeds.feedburner.com/gpbnews"  # DEPRECATED / DEAD
 GR1_URL = "https://www.raiplaysound.it"
 FT_URL = "https://www.ft.com"
@@ -32,21 +34,31 @@ KVCR = "https://www.npr.org/podcasts/1033362253/the-midday-news-report"
 
 
 def tsf():
-    """Custom inews fetcher for TSF news."""
-    uri = None
-    i = 0
-    status = 404
-    date = now_local(timezone('Portugal'))
-    feed = (f'{TSF_URL}/audio/{date.year}/{date.month:02d}/'
-            'noticias/{day:02d}/not{hour:02d}.mp3')
-    while status != 200 and i < 6:
-        uri = feed.format(hour=date.hour, year=date.year,
-                          month=date.month, day=date.day)
-        status = requests.get(uri).status_code
-        date -= timedelta(hours=1)
-        i += 1
-    if status != 200:
+    """Custom inews fetcher for TSF news.
+
+    TSF migrated their news bulletin hosting off the old predictable
+    `tsf.pt/stream/audio/YYYY/MM/noticias/DD/notHH.mp3` URL scheme onto a
+    CDN (videos.ni.aws.newsgen.io) with unpredictable per-bulletin hashes,
+    so the latest mp3 URL has to be scraped from the noticiarios listing
+    page instead of being guessed.
+    """
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) "
+                              "Gecko/20100101 Firefox/68.0"}
+    try:
+        html = requests.get(f"{TSF_URL_NOTICIARIOS}",
+                             headers=headers, timeout=10).text
+    except Exception as e:
+        LOG.error(f"failed to fetch TSF noticiarios page: {e}")
         return None
+    matches = re.findall(r'https?://[^"\'\s<>]+/mp3/audio\.mp3', html)
+    if not matches:
+        return None
+    # bulletin filenames embed a timestamp, e.g.
+    # ..._not11_20260813101726/mp3/audio.mp3 -> use the newest one
+    def _ts(url):
+        m = re.search(r'_(\d{14})/mp3/audio\.mp3$', url)
+        return m.group(1) if m else ""
+    uri = sorted(set(matches), key=_ts)[-1]
     return {"uri": uri,
             "title": "TSF Radio Noticias",
             "author": "TSF"}
@@ -213,7 +225,26 @@ def gr1():
     path = resp['block']['cards'][0]['path_id']
     grjson_path = f"{GR1_URL}{path}"
     resp = requests.get(grjson_path, headers=headers).json()
-    uri = resp['downloadable_audio']['url']
+    relinker = resp['downloadable_audio']['url']
+    # Rai's relinker endpoint 403s any request that doesn't look like a
+    # real browser (e.g. python-requests' or gstreamer's default UA),
+    # returning an "Access Denied" HTML page instead of the stream. If
+    # that raw relinker URL is handed straight to the media backend it
+    # gets stuck retrying/parsing the HTML error page, which is what was
+    # pegging CPU at 100% in the bug report. Resolve it here (with a
+    # browser UA) to the final playable .m3u8 URL instead.
+    try:
+        r = requests.get(relinker, headers=headers, allow_redirects=True,
+                          timeout=10)
+        if r.status_code == 200 and r.url:
+            uri = r.url
+        else:
+            LOG.error(f"GR1 relinker resolution failed with status "
+                       f"{r.status_code}, falling back to raw relinker url")
+            uri = relinker
+    except Exception as e:
+        LOG.error(f"GR1 relinker resolution failed: {e}")
+        uri = relinker
     return {"uri": uri, "title": "Radio Giornale 1", "author": "Rai GR1"}
 
 
