@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4a1](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.4a1) (2026-08-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.3a5...0.1.4a1)
+
+**Merged pull requests:**
+
+- fix: restore TSF and GR1 news feeds \(\#9, \#7\) [\#35](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/pull/35) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.1.3a5](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/tree/0.1.3a5) (2026-07-31)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-news-plugin/compare/0.1.3a4...0.1.3a5)
